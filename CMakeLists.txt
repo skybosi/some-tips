@@ -1,5 +1,5 @@
 #设置工程名称
-PROJECT(master_simulator)
+PROJECT(nginx_master)
 #自己定制
 
 #设置CMAKE最小版本
@@ -32,10 +32,10 @@ AUX_SOURCE_DIRECTORY(. SRC_LIST)
 
 SET(SRC_LIST src/main.c src/master_fork.c src/master_worker.c)
 #生成可执行文件
-ADD_EXECUTABLE(master_simulator ${SRC_LIST})
+ADD_EXECUTABLE(nginx_master ${SRC_LIST})
 #执行文件链接属性
 #TARGET_LINK_LIBRARIES(${MY_TARGET} ${EXTRA_LIBS})
 
 SET(SRC_LIST src/worker.c)
 #生成可执行文件
-ADD_EXECUTABLE(master_worker ${SRC_LIST})
+ADD_EXECUTABLE(nginx_worker ${SRC_LIST})

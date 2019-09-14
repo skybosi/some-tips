@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <sys/resource.h>
+#include <sys/prctl.h>
 
 typedef struct{
     // 当前worker的个数
@@ -22,6 +23,8 @@ typedef struct{
 } master_s;
 
 typedef master_s* master_t;
+#define worker_name "nginx_worker"
+
 sig_atomic_t reap;
 sig_atomic_t terminate;
 sig_atomic_t quit;

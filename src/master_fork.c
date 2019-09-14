@@ -36,6 +36,7 @@ int master_fork(int count)
 			g_master_s.worker_n++;
 			g_master_s.work_pids = &pid;
 			g_master_s.work_pids++;
+            prctl(PR_SET_NAME, worker_name);
             worker_process_cycle((void*)&g_master_s);
             /*
             char* argv[] = { "worker_simulator", NULL };
