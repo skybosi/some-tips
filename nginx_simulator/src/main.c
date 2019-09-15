@@ -83,6 +83,25 @@ int checkrun(void)
     return 1;
 }
 
+void enable_coredumps(void)
+{
+    /* Set Linux DUMPABLE flag */
+	if (prctl(PR_SET_DUMPABLE, 1, 0, 0, 0) != 0)
+		fprintf(stderr, "prctl: %s\n", strerror(errno));
+    /* Make sure coredumps are not limited */
+    struct rlimit rlim;
+    if (getrlimit(RLIMIT_CORE, &rlim) == 0)
+    {
+        rlim.rlim_cur = rlim.rlim_max;
+        if (setrlimit(RLIMIT_CORE, &rlim) == 0)
+        {
+            fprintf(stderr, "Enable Core Dumps OK!\n");
+            return;
+        }
+    }
+    fprintf(stderr, "Enable Core Dump failed: %s\n", strerror(errno));
+}
+
 void sig_handler(int sig_num)
 {
     printf("Catch signal number : %d\n",sig_num);
@@ -97,6 +116,8 @@ int main(int argc, char** argv)
         usage();
         exit(-1);
     }
+    // 开启coredumps
+    enable_coredumps();
     // printf("optind:%d，opterr：%d\n", optind, opterr);
     int count = 0;
     while ((ch = getopt(argc, argv, "hs:c:")) != -1)

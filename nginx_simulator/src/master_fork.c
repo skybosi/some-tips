@@ -28,14 +28,14 @@ int master_fork(int count)
     {
         pid = fork();
         if (pid < 0) {
-			printf("[Worker]: Fork failed!\n");
-			exit(EXIT_FAILURE);
+            printf("[Worker]: Fork failed!\n");
+            exit(EXIT_FAILURE);
         }
         else if (pid == 0) {
-			printf("At Worker [Master]: (%d) created worker(%d). \n", getppid(), getpid());
-			g_master_s.worker_n++;
-			g_master_s.work_pids = &pid;
-			g_master_s.work_pids++;
+            printf("At Worker [Master]: (%d) created worker(%d). \n", getppid(), getpid());
+            g_master_s.worker_n++;
+            g_master_s.work_pids = &pid;
+            g_master_s.work_pids++;
             prctl(PR_SET_NAME, worker_name);
             worker_process_cycle((void*)&g_master_s);
             /*
@@ -48,63 +48,65 @@ int master_fork(int count)
             break;
         }
         else {
-			// printf("At Master [Master]: (%d) created worker(%d). \n", getppid(), getpid());
-            // break;
-			// do {
-			// 	w = waitpid(pid, &status, WUNTRACED | WCONTINUED);
-			// 	if (w == -1) {
-			// 		perror("waitpid");
-			// 		exit(EXIT_FAILURE);
-			// 	}
-			// 	if (WIFEXITED(status)) {
-			// 		printf("exited, status = %d\n", WEXITSTATUS(status));
-			// 	} else if (WIFSIGNALED(status)) {
-			// 		printf("killed by signal %d\n", WTERMSIG(status));
-			// 	} else if (WIFSTOPPED(status)) {
-			// 		printf("stopped by signal %d\n", WSTOPSIG(status));
-			// 	} else if (WIFCONTINUED(status)) {
-			// 		printf("continued\n");
-			// 	}
-			// } while (!WIFEXITED(status) && !WIFSIGNALED(status));
-            // exit(EXIT_SUCCESS);
+        /*
+            printf("At Master [Master]: (%d) created worker(%d). \n", getppid(), getpid());
+            break;
+            do {
+                w = waitpid(pid, &status, WUNTRACED | WCONTINUED);
+                if (w == -1) {
+                    perror("waitpid");
+                    exit(EXIT_FAILURE);
+                }
+                if (WIFEXITED(status)) {
+                    printf("exited, status = %d\n", WEXITSTATUS(status));
+                } else if (WIFSIGNALED(status)) {
+                    printf("killed by signal %d\n", WTERMSIG(status));
+                } else if (WIFSTOPPED(status)) {
+                    printf("stopped by signal %d\n", WSTOPSIG(status));
+                } else if (WIFCONTINUED(status)) {
+                    printf("continued\n");
+                }
+            while (!WIFEXITED(status) && !WIFSIGNALED(status));
+            exit(EXIT_SUCCESS);
+        */
         }
     }
 /*
 	while(i++ < count) {
-		pid = fork();
-		switch(pid){
-		case -1:
-			printf("[Worker]: Fork failed!\n");
-			exit(EXIT_FAILURE);
+        pid = fork();
+        switch(pid){
+        case -1:
+            printf("[Worker]: Fork failed!\n");
+            exit(EXIT_FAILURE);
             break;
-		case 0:
-			// printf("[Master]: (%d) created worker(%d). \n", getppid(), getpid());
+        case 0:
+            printf("[Master]: (%d) created worker(%d). \n", getppid(), getpid());
             break;
-		default:
-			// printf("[Worker]: Master(%d) Fork worker(%d) \n", getppid(), getpid());
-			g_master_s.worker_n++;
-			g_master_s.work_pids = &pid;
-			g_master_s.work_pids++;
-			// do {
-			// 	w = waitpid(pid, &status, WUNTRACED | WCONTINUED);
-			// 	if (w == -1) {
-			// 		perror("waitpid");
-			// 		exit(EXIT_FAILURE);
-			// 	}
-			// 	if (WIFEXITED(status)) {
-			// 		printf("exited, status = %d\n", WEXITSTATUS(status));
-			// 	} else if (WIFSIGNALED(status)) {
-			// 		printf("killed by signal %d\n", WTERMSIG(status));
-			// 	} else if (WIFSTOPPED(status)) {
-			// 		printf("stopped by signal %d\n", WSTOPSIG(status));
-			// 	} else if (WIFCONTINUED(status)) {
-			// 		printf("continued\n");
-			// 	}
-			// } while (!WIFEXITED(status) && !WIFSIGNALED(status));
-            // exit(EXIT_SUCCESS);
-			break;
-		}
-	}
+        default:
+            printf("[Worker]: Master(%d) Fork worker(%d) \n", getppid(), getpid());
+            g_master_s.worker_n++;
+            g_master_s.work_pids = &pid;
+            g_master_s.work_pids++;
+            do {
+                w = waitpid(pid, &status, WUNTRACED | WCONTINUED);
+                if (w == -1) {
+                    perror("waitpid");
+                    exit(EXIT_FAILURE);
+                }
+                if (WIFEXITED(status)) {
+                    printf("exited, status = %d\n", WEXITSTATUS(status));
+                } else if (WIFSIGNALED(status)) {
+                    printf("killed by signal %d\n", WTERMSIG(status));
+                } else if (WIFSTOPPED(status)) {
+                    printf("stopped by signal %d\n", WSTOPSIG(status));
+                } else if (WIFCONTINUED(status)) {
+                    printf("continued\n");
+                }
+            } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+            exit(EXIT_SUCCESS);
+            break;
+        }
+    }
 */
 	// printf("[Worker]: Master(%d) Fork worker(%d) \n", getppid(), getpid());
 	return 0;
