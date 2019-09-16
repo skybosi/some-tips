@@ -39,3 +39,7 @@ ADD_EXECUTABLE(nginx_master ${SRC_LIST})
 SET(SRC_LIST src/worker.c)
 #生成可执行文件
 ADD_EXECUTABLE(nginx_worker ${SRC_LIST})
+
+SET(SRC_LIST src/sockerpair.c)
+#生成可执行文件
+ADD_EXECUTABLE(sockerpair ${SRC_LIST})
